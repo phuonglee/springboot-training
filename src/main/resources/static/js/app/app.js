@@ -1,4 +1,5 @@
-var app = angular.module('crudApp', [ 'ui.router', 'ngStorage' ]);
+var app = angular.module('crudApp', [ 'ui.router', 'ngStorage', 'ui.grid',
+		'ui.grid.pagination' ]);
 
 app.constant('urls', {
 	BASE : 'http://localhost:8088/MySpringBootStarterApp',
@@ -19,8 +20,8 @@ app.config([
 					users : function($q, UserService) {
 						console.log('Load all users');
 						var deferred = $q.defer();
-						UserService.loadAllUsers().then(deferred.resolve,
-								deferred.resolve);
+						UserService.loadAllUsers().then(
+								deferred.resolve, deferred.resolve);
 						return deferred.promise;
 					}
 				}

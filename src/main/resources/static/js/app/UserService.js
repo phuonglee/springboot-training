@@ -6,6 +6,7 @@ angular.module('crudApp').factory('UserService',
  
             var factory = {
                 loadAllUsers: loadAllUsers,
+                loadAllUsersPaginated: loadAllUsersPaginated,
                 getAllUsers: getAllUsers,
                 getUser: getUser,
                 createUser: createUser,
@@ -27,16 +28,35 @@ angular.module('crudApp').factory('UserService',
                         },
                         function (errResponse) {
                             console.error('Error while loading users');
+                            $localStorage.users = null;
                             deferred.reject(errResponse);
                         }
                     );
                 return deferred.promise;
             }
+            
+            function loadAllUsersPaginated(pageNumber, size) {
+            	console.log('Load all users in page : ' + pageNumber + ', with size: ' + size);
+            	pageNumber = pageNumber > 0 ? pageNumber - 1 : 0;
+            	var deferred = $q.defer();
+            	$http.get(urls.USER_SERVICE_API + 'get?page=' + pageNumber + '&size=' + size)
+            		.then(
+            				function(response) {
+            					console.log('Successfully load users in page : ' + pageNumber + ', with size: ' + size);
+            					deferred.resolve(response.data);
+            				},
+            				function(errResponse) {
+            					console.log('Error while getting users in page : ' + pageNumber + ', with size: ' + size);
+            					deferred.reject(errResponse);
+            				}
+    				);
+            	return deferred.promise;
+            }
  
             function getAllUsers(){
                 return $localStorage.users;
             }
- 
+            
             function getUser(id) {
                 console.log('Fetching User with id :'+id);
                 var deferred = $q.defer();
@@ -53,7 +73,7 @@ angular.module('crudApp').factory('UserService',
                     );
                 return deferred.promise;
             }
- 
+            
             function createUser(user) {
                 console.log('Creating User');
                 var deferred = $q.defer();

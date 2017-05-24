@@ -2,6 +2,8 @@ package com.example.springbootdemo.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.example.springbootdemo.model.User;
 
 public interface UserService {
@@ -20,4 +22,6 @@ public interface UserService {
     List<User> findAllUsers();
  
     boolean isUserExist(User user);
+    
+    Page<User> findPaginated(int page, int size);
 }

@@ -3,6 +3,8 @@ package com.example.springbootdemo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +48,11 @@ public class UserServiceImpl implements UserService {
 
 	public boolean isUserExist(User user) {
 		return findByName(user.getName()) != null;
+	}
+
+	@Override
+	public Page<User> findPaginated(int page, int size) {
+		return userRepository.findAll(new PageRequest(page, size));
 	}
 
 }

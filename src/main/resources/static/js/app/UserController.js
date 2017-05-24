@@ -21,7 +21,38 @@ angular.module('crudApp').controller('UserController',
  
         self.onlyIntegers = /^\d+$/;
         self.onlyNumbers = /^\d+([,.]\d+)?$/;
- 
+        
+        // PAGINATION
+//        var paginationOptions = {
+//        		pageNumber: 1,
+//        		pageSize: 5,
+//        		sort: null
+//        };
+//        
+//        getAllUsersPaginated();
+//        
+//        $scope.gridOptions = {
+//        		paginationPageSizes: [5, 10, 20, 30],
+//        		paginationPageSize: paginationOptions.pageSize,
+//        		enableColumnMenus: false,
+//        		useExternalPagination: true,
+//        		columnDefs: [
+//        			{name: 'id'},
+//        			{name: 'name'},
+//        			{name: 'age'},
+//        			{name: 'salary'}
+//        		],
+//        		onRegisterApi: function(gridApi) {
+//        			$scope.gridApi = gridApi;
+//        			gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+//        				paginationOptions.pageNumber = newPage;
+//        				paginationOptions.pageSize = pageSize;
+//        				getAllUsersPaginated();
+//    		        });
+//        		}
+//        }
+        
+        // FUNCTION DEFINITIONS
         function submit() {
             console.log('Submitting');
             if (self.user.id === undefined || self.user.id === null) {
@@ -87,6 +118,21 @@ angular.module('crudApp').controller('UserController',
  
         function getAllUsers(){
             return UserService.getAllUsers();
+        }
+        
+        function getAllUsersPaginated() {
+        	console.log('Get all users paginated');
+        	UserService.loadAllUsersPaginated(paginationOptions.pageNumber, paginationOptions.pageSize)
+            		.then(
+            				function(response) {
+            					console.log('Get all users paginated success');
+            					$scope.gridOptions.data = response.content;
+                    			$scope.gridOptions.totalItems = response.totalElements;
+            				},
+            				function(errResponse) {
+            					console.log('Get all users paginated fail');
+            				}
+            		);
         }
  
         function editUser(id) {
