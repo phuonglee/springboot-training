@@ -2,7 +2,7 @@
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
 		<div class="panel-heading">
-			<span class="lead">Specific User </span>
+			<span class="lead">Users Management</span>
 		</div>
 		<div class="panel-body">
 			<div class="formcontainer">
@@ -15,7 +15,7 @@
 					<input type="hidden" ng-model="ctrl.user.id" />
 					<div class="row">
 						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="uname">Name</label>
+							<label class="col-md-2 control-label" for="uname">Name</label>
 							<div class="col-md-7">
 								<input type="text" ng-model="ctrl.user.name" id="uname"
 									class="username form-control input-sm"
@@ -26,7 +26,7 @@
 
 					<div class="row">
 						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="age">Age</label>
+							<label class="col-md-2 control-label" for="age">Age</label>
 							<div class="col-md-7">
 								<input type="text" ng-model="ctrl.user.age" id="age"
 									class="form-control input-sm" placeholder="Enter your Age."
@@ -37,7 +37,7 @@
 
 					<div class="row">
 						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="salary">Salary</label>
+							<label class="col-md-2 control-label" for="salary">Salary</label>
 							<div class="col-md-7">
 								<input type="text" ng-model="ctrl.user.salary" id="salary"
 									class="form-control input-sm" placeholder="Enter your Salary."

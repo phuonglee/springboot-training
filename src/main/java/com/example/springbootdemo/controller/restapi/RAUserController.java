@@ -1,4 +1,4 @@
-package com.example.springbootdemo.controller;
+package com.example.springbootdemo.controller.restapi;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ import com.example.springbootdemo.service.UserService;
 
 @RestController
 @RequestMapping("/api")
-public class RestApiController {
+public class RAUserController {
 
-	public static final Logger logger = LoggerFactory.getLogger(RestApiController.class);
+	public static final Logger logger = LoggerFactory.getLogger(RAUserController.class);
 
 	// Service which will do all data
 	@Autowired

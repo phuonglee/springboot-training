@@ -1,4 +1,4 @@
-package com.example.springbootdemo.service;
+package com.example.springbootdemo.service.impl;
 
 import java.util.List;
 
@@ -10,10 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springbootdemo.model.User;
 import com.example.springbootdemo.repositories.UserRepository;
+import com.example.springbootdemo.service.UserService;
 
 @Service("userService")
 @Transactional
-public class UserServiceImpl implements UserService {
+public class IUserService implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;

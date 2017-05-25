@@ -3,7 +3,8 @@ var app = angular.module('crudApp', [ 'ui.router', 'ngStorage', 'ui.grid',
 
 app.constant('urls', {
 	BASE : 'http://localhost:8088/MySpringBootStarterApp',
-	USER_SERVICE_API : 'http://localhost:8088/MySpringBootStarterApp/api/user/'
+	USER_SERVICE_API : 'http://localhost:8088/MySpringBootStarterApp/api/user/',
+	PRODUCT_SERVICE_API : 'http://localhost:8088/MySpringBootStarterApp/api/product/'
 });
 
 app.config([
@@ -11,9 +12,10 @@ app.config([
 		'$urlRouterProvider',
 		function($stateProvider, $urlRouterProvider) {
 
-			$stateProvider.state('home', {
-				url : '/',
-				templateUrl : 'partials/list',
+			$stateProvider
+			.state('users', {
+				url : '/users',
+				templateUrl : 'partials/users',
 				controller : 'UserController',
 				controllerAs : 'ctrl',
 				resolve : {
@@ -25,6 +27,21 @@ app.config([
 						return deferred.promise;
 					}
 				}
+			})
+			.state('products', {
+				url : '/products',
+				templateUrl : 'partials/products',
+				controller : 'ProductController',
+				controllerAs : 'ctrl',
+				resolve : {
+					users : function($q, ProductService) {
+						console.log('Load all products');
+						var deferred = $q.defer();
+						ProductService.loadAllProducts().then(
+								deferred.resolve, deferred.resolve);
+						return deferred.promise;
+					}
+				}
 			});
-			$urlRouterProvider.otherwise('/');
+			$urlRouterProvider.otherwise('/users');
 		} ]);
