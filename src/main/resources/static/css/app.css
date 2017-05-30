@@ -12,6 +12,11 @@ body, .form-control{
 	margin-right: 18px;
 }
 
+.floatLeft{
+	float:left;
+	margin-left: 18px;
+}
+
 .has-error{
 	color:red;
 }
@@ -30,4 +35,8 @@ body, .form-control{
 
 .custom-width {
     width: 80px !important;
+}
+
+.custom-error {
+    margin-top: 20px;
 }

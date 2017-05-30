@@ -143,7 +143,7 @@ angular.module('crudApp').controller('UserController',
                     self.user = user;
                 },
                 function (errResponse) {
-                    console.error('Error while removing user ' + id + ', Error :' + errResponse.data);
+                    console.error('Error while edit user ' + id + ', Error :' + errResponse.data);
                 }
             );
         }

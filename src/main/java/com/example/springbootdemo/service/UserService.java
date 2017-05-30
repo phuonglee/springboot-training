@@ -10,7 +10,7 @@ public interface UserService {
 	User findById(Long id);
 	 
     User findByName(String name);
- 
+    
     void saveUser(User user);
  
     void updateUser(User user);
@@ -24,4 +24,5 @@ public interface UserService {
     boolean isUserExist(User user);
     
     Page<User> findPaginated(int page, int size);
+    
 }

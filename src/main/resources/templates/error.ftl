@@ -6,7 +6,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="jumbotron alert-danger">
+        <div class="jumbotron alert-danger custom-error">
             <h1>Oops. Something went wrong</h1>
             <h2>${status} ${error}</h2>
         </div>

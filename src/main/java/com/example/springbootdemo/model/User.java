@@ -2,7 +2,6 @@ package com.example.springbootdemo.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Set;
 
 
 /**
@@ -28,10 +27,6 @@ public class User implements Serializable {
 
 	@Column(nullable=false)
 	private double salary;
-
-	//bi-directional many-to-one association to Cart
-	@OneToMany(mappedBy="user")
-	private Set<Cart> carts;
 
 	public User() {
 	}
@@ -66,28 +61,6 @@ public class User implements Serializable {
 
 	public void setSalary(double salary) {
 		this.salary = salary;
-	}
-
-	public Set<Cart> getCarts() {
-		return this.carts;
-	}
-
-	public void setCarts(Set<Cart> carts) {
-		this.carts = carts;
-	}
-
-	public Cart addCart(Cart cart) {
-		getCarts().add(cart);
-		cart.setUser(this);
-
-		return cart;
-	}
-
-	public Cart removeCart(Cart cart) {
-		getCarts().remove(cart);
-		cart.setUser(null);
-
-		return cart;
 	}
 
 }
