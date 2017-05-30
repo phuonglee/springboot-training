@@ -1,5 +1,5 @@
 <div class="generic-container">
-	<div class="panel panel-default">
+	<div class="panel panel-default" ng-show="authority == 'ROLE_ADMIN'">
 		<!-- Default panel contents -->
 		<div class="panel-heading">
 			<span class="lead">Products Management</span>
@@ -97,10 +97,19 @@
 							<td>{{p.productDetails}}</td>
 							<td>{{p.price}}</td>
 							<td>{{p.quantityThreshold}}</td>
-							<td><button type="button" ng-click="ctrl.editProduct(p.id)"
-									class="btn btn-success custom-width">Edit</button></td>
-							<td><button type="button" ng-click="ctrl.removeProduct(p.id)"
-									class="btn btn-danger custom-width">Remove</button></td>
+							<td>
+								<button type="button" ng-click="ctrl.editProduct(p.id)"
+									class="btn btn-success custom-width">
+										{{authority == 'ROLE_ADMIN' ? 'Edit' : ''}}
+										{{authority == 'ROLE_USER' ? 'Details' : ''}}
+								</button>
+							</td>
+							<td>
+								<button type="button" ng-click="ctrl.removeProduct(p.id)"
+									class="btn btn-danger custom-width">Remove
+									
+								</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>

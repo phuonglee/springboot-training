@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private SimpleAuthenticationSuccessHandler successHandler;
@@ -29,7 +31,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //            	.antMatchers("/api/**", "/css/**", "/js/**", "/webjars/**", "/partials/**").permitAll()
 //	            .antMatchers("/api/secure/").permitAll()
             	.antMatchers("/", "/partials/login*", "/partials/home*").permitAll()
-	            .antMatchers("/api/user/**", "/api/product/**", "/partials/users/**", "/partials/products/**").hasRole("ADMIN")
+	            .antMatchers("/api/user/**", "/partials/users/**").hasRole("ADMIN")
 //	            .antMatchers("/api/product/**").hasRole("USER")
 	            .anyRequest().authenticated()
 	            .and()

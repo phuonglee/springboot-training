@@ -16,7 +16,7 @@
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li ng-show="authenticated && authority == 'ROLE_ADMIN'"><a ui-sref="users">Users</a></li>
-					<li ng-show="authenticated && authority == 'ROLE_ADMIN'"><a ui-sref="products">Products</a></li>
+					<li ng-show="authenticated"><a ui-sref="products">Products</a></li>
 					<li ng-show="!authenticated"><a ui-sref="login">Login</a></li>
 					<li ng-show="authenticated"><a ui-sref="logout">Logout</a></li>
 				</ul>
