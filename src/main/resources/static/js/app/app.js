@@ -1,9 +1,10 @@
-var app = angular.module('crudApp', [ 'ngRoute', 'ui.router', 'ngStorage', 'ui.grid', 'ui.grid.pagination' ]);
+var app = angular.module('crudApp', [ 'ngRoute', 'ui.router', 'ngStorage', 'ngTouch', 'ui.grid', 'ui.grid.selection', 'ui.grid.pagination' ]);
 
 app.constant('urls', {
 	BASE : 'http://localhost:8088/MySpringBootStarterApp',
 	USER_SERVICE_API : 'http://localhost:8088/MySpringBootStarterApp/api/user/',
 	PRODUCT_SERVICE_API : 'http://localhost:8088/MySpringBootStarterApp/api/product/',
+    CART_SERVICE_API : 'http://localhost:8088/MySpringBootStarterApp/api/cart/',
 	SECURE_SERVICE_API : 'http://localhost:8088/MySpringBootStarterApp/api/secure/'
 });
 
@@ -16,12 +17,6 @@ app.run(
 		console.log('Get authority : ' + $rootScope.authority);
 	}]
 );
-
-app.filter('htmlToPlaintext', function() {
-    return function(text) {
-    	return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
-      }
-});
 
 app.config([
 	'$stateProvider',
@@ -44,19 +39,19 @@ app.config([
 				url : '/logout',
 				templateUrl : 'partials/login',
 				controller : 'SecureController',
-				controllerAs : 'ctrl',
-				resolve : {
-					logout : function($q, SecureService) {
-						console.log('Logout');
-						var deferred = $q.defer();
-						SecureService.doLogout().then(
-								deferred.resolve, deferred.resolve);
-						return deferred.promise;
-					}
-				}
+				controllerAs : 'ctrl'
+				// resolve : {
+				// 	logout : function($q, SecureService) {
+				// 		console.log('Logout');
+				// 		var deferred = $q.defer();
+				// 		SecureService.doLogout().then(
+				// 				deferred.resolve, deferred.resolve);
+				// 		return deferred.promise;
+				// 	}
+				// }
 			})
 			.state('users', {
-				url : '/admin/users',
+				url : '/users',
 				templateUrl : 'partials/users',
 				controller : 'UserController',
 				controllerAs : 'ctrl',
@@ -71,21 +66,41 @@ app.config([
 				}
 			})
 			.state('products', {
-				url : '/admin/products',
+				url : '/products',
 				templateUrl : 'partials/products',
 				controller : 'ProductController',
-				controllerAs : 'ctrl',
-				resolve : {
-					products : function($q, ProductService) {
-						console.log('Load all products');
-						var deferred = $q.defer();
-						ProductService.loadAllProducts().then(
-								deferred.resolve, deferred.resolve);
-						return deferred.promise;
-					}
-				}
-			});
+				controllerAs : 'ctrl'
+				// resolve : {
+				// 	products : function($q, ProductService) {
+				// 		console.log('Load all products');
+				// 		var deferred = $q.defer();
+				// 		ProductService.loadAllProducts().then(
+				// 				deferred.resolve, deferred.resolve);
+				// 		return deferred.promise;
+				// 	}
+				// }
+			})
+            .state('cart', {
+                url : '/cart',
+                templateUrl : 'partials/cart',
+                controller : 'CartController',
+                controllerAs : 'ctrl',
+                resolve : {
+                    users : function($q, CartService) {
+                        console.log('Load all products in cart');
+                        var deferred = $q.defer();
+                        CartService.loadAllProductsInCart().then(
+                            deferred.resolve, deferred.resolve);
+                        return deferred.promise;
+                    }
+                }
+            });
+		// Skip show basic authenticate dialog
 		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 		$urlRouterProvider.otherwise('home');
 	} 
 ]);
+
+app.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}]);

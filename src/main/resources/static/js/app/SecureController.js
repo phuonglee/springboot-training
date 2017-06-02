@@ -42,6 +42,11 @@ angular.module('crudApp').controller('SecureController',
 	                    }
 	                );
 	        }
+
+	        function doLogout() {
+		    	console.log('About to logout');
+		    	SecureService.doLogout();
+			}
 	        
 	        function reset(){
 	            self.errorMessage='';

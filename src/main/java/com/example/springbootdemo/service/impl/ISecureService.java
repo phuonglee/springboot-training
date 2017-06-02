@@ -28,8 +28,13 @@ public class ISecureService implements SecureService {
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		Account account = accountRepository.findByUserName(userName);
 		if (account != null) {
-			return new User(account.getUserName(), account.getPassword(), true, true, true, true,
-					AuthorityUtils.createAuthorityList("ROLE_USER"));
+			if (account.getUserName().equalsIgnoreCase("admin")) {
+				return new User(account.getUserName(), account.getPassword(), true, true, true, true,
+						AuthorityUtils.createAuthorityList("ROLE_ADMIN"));
+			} else {
+				return new User(account.getUserName(), account.getPassword(), true, true, true, true,
+						AuthorityUtils.createAuthorityList("ROLE_USER"));
+			}
 		} else {
 			throw new UsernameNotFoundException("could not find the user '" + userName + "'");
 		}

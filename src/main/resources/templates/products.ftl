@@ -77,7 +77,7 @@
 			<span class="lead">List of all Products</span>
 		</div>
 		<div class="panel-body">
-			<div class="table-responsive">
+			<#--<div class="table-responsive">
 				<table class="table table-hover">
 					<thead>
 						<tr>
@@ -106,18 +106,24 @@
 							</td>
 							<td>
 								<button type="button" ng-click="ctrl.removeProduct(p.id)"
-									class="btn btn-danger custom-width">Remove
-									
+									class="btn btn-danger">
+                                    {{authority == 'ROLE_ADMIN' ? 'Remove' : ''}}
+                                    {{authority == 'ROLE_USER' ? 'Add to Cart' : ''}}
 								</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
+			</div>-->
+
+			<div ui-grid="gridOptions" class="grid" ui-grid-pagination ui-grid-selection></div>
+			<div style="margin: 10px">
+				<button type="button" ng-click="ctrl.addToCart()"
+						class="btn btn-success floatRight">
+					{{authority == 'ROLE_USER' ? 'Add to Cart' : ''}}
+				</button>
 			</div>
 
-			<!-- <div ng-controller="ProductController">
-				<div ui-grid="gridOptions" class="grid" ui-grid-pagination></div>
-			</div> -->
 		</div>
 	</div>
 </div>

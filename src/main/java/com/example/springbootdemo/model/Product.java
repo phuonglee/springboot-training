@@ -34,10 +34,6 @@ public class Product implements Serializable {
 	@Column(name="quantity_threshold")
 	private BigInteger quantityThreshold;
 
-	//bi-directional many-to-one association to Cart
-	@OneToMany(mappedBy="product")
-	private Set<Cart> carts;
-
 	public Product() {
 	}
 
@@ -80,27 +76,4 @@ public class Product implements Serializable {
 	public void setQuantityThreshold(BigInteger quantityThreshold) {
 		this.quantityThreshold = quantityThreshold;
 	}
-
-	public Set<Cart> getCarts() {
-		return this.carts;
-	}
-
-	public void setCarts(Set<Cart> carts) {
-		this.carts = carts;
-	}
-
-	public Cart addCart(Cart cart) {
-		getCarts().add(cart);
-		cart.setProduct(this);
-
-		return cart;
-	}
-
-	public Cart removeCart(Cart cart) {
-		getCarts().remove(cart);
-		cart.setProduct(null);
-
-		return cart;
-	}
-
 }

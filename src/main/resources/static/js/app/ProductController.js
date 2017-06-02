@@ -1,12 +1,13 @@
 'use strict';
  
 angular.module('crudApp').controller('ProductController',
-    ['ProductService', '$scope',  function( ProductService, $scope) {
- 
+    ['ProductService', '$rootScope', '$scope',  function( ProductService, $rootScope, $scope) {
+
         var self = this;
         self.product = {};
-        self.products=[];
- 
+        self.products = [];
+        self.carts = [];
+
         self.submit = submit;
         self.getAllProducts = getAllProducts;
         self.createProduct = createProduct;
@@ -14,6 +15,7 @@ angular.module('crudApp').controller('ProductController',
         self.removeProduct = removeProduct;
         self.editProduct = editProduct;
         self.reset = reset;
+        self.addToCart = addToCart;
  
         self.successMessage = '';
         self.errorMessage = '';
@@ -21,36 +23,56 @@ angular.module('crudApp').controller('ProductController',
  
         self.onlyIntegers = /^\d+$/;
         self.onlyNumbers = /^\d+([,.]\d+)?$/;
-        
+
         // PAGINATION
-//        var paginationOptions = {
-//        		pageNumber: 1,
-//        		pageSize: 5,
-//        		sort: null
-//        };
-//        
-//        getAllProductsPaginated();
-//        
-//        $scope.gridOptions = {
-//        		paginationPageSizes: [5, 10, 20, 30],
-//        		paginationPageSize: paginationOptions.pageSize,
-//        		enableColumnMenus: false,
-//        		useExternalPagination: true,
-//        		columnDefs: [
-//        			{name: 'id'},
-//        			{name: 'name'},
-//        			{name: 'age'},
-//        			{name: 'salary'}
-//        		],
-//        		onRegisterApi: function(gridApi) {
-//        			$scope.gridApi = gridApi;
-//        			gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-//        				paginationOptions.pageNumber = newPage;
-//        				paginationOptions.pageSize = pageSize;
-//        				getAllProductsPaginated();
-//    		        });
-//        		}
-//        }
+       var paginationOptions = {
+       		pageNumber: 1,
+       		pageSize: 5,
+       		sort: null
+       };
+
+       getAllProductsPaginated();
+
+       $scope.gridOptions = {
+       		paginationPageSizes: [5, 10, 20, 30],
+       		paginationPageSize: paginationOptions.pageSize,
+       		enableColumnMenus: false,
+       		useExternalPagination: true,
+            enableRowSelection: true,
+            enableSelectAll: true,
+            multiSelect : true,
+            selectionRowHeaderWidth: 35,
+            rowHeight: 35,
+            showGridFooter:true,
+       		columnDefs: [
+       			{name: 'id'},
+       			{name: 'price'},
+       			{name: 'productDetails'},
+       			{name: 'productName'},
+                {name: 'quantityThreshold'}
+       		],
+            onRegisterApi : function(gridApi) {
+       			$scope.gridApi = gridApi;
+       			gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+       				paginationOptions.pageNumber = newPage;
+       				paginationOptions.pageSize = pageSize;
+       				getAllProductsPaginated();
+   		        });
+                gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+                    var index = $scope.gridOptions.data.indexOf(row.entity);
+                    var msg = 'rows ' + index + ' changed ' + row.isSelected;
+                    $rootScope.selectedProducts = $scope.gridApi.selection.getSelectedRows()
+                    console.log(msg);
+                    console.log('selected rows: ' + $rootScope.selectedProducts);
+                });
+       			gridApi.selection.on.rowSelectionChangedBatch($scope, function (rows) {
+                    var msg = 'rows changed ' + rows.length;
+                    $rootScope.selectedProducts = $scope.gridApi.selection.getSelectedRows()
+                    console.log(msg);
+                    console.log('selected rows: ' + $rootScope.selectedProducts);
+                });
+       		}
+       }
         
         // FUNCTION DEFINITIONS
         function submit() {
@@ -62,6 +84,11 @@ angular.module('crudApp').controller('ProductController',
                 updateProduct(self.product, self.product.id);
                 console.log('Product updated with id ', self.product.id);
             }
+        }
+
+        function addToCart() {
+            console.log('Add products to Cart');
+            ProductService.addToCart($rootScope.selectedProducts);
         }
  
         function createProduct(product) {
@@ -128,6 +155,7 @@ angular.module('crudApp').controller('ProductController',
             					console.log('Get all products paginated success');
             					$scope.gridOptions.data = response.content;
                     			$scope.gridOptions.totalItems = response.totalElements;
+                    			self.products = response.content;
             				},
             				function(errResponse) {
             					console.log('Get all products paginated fail');

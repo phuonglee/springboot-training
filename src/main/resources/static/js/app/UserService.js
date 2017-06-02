@@ -15,7 +15,7 @@ angular.module('crudApp').factory('UserService',
             };
  
             return factory;
- 
+
             function loadAllUsers() {
                 console.log('Fetching all users');
                 var deferred = $q.defer();

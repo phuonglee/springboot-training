@@ -11,11 +11,29 @@ angular.module('crudApp').factory('ProductService',
                 getProduct: getProduct,
                 createProduct: createProduct,
                 updateProduct: updateProduct,
-                removeProduct: removeProduct
+                removeProduct: removeProduct,
+                addToCart: addToCart
             };
  
             return factory;
- 
+
+            function addToCart(selectedProducts) {
+                console.log('Creating Cart');
+                $localStorage.selectedProducts = selectedProducts;
+                var deferred = $q.defer();
+                $http.post(urls.CART_SERVICE_API, selectedProducts)
+                    .then(
+                        function (response) {
+                            deferred.resolve(response.data);
+                        },
+                        function (errResponse) {
+                            console.error('Error while creating Cart : '+errResponse.data.errorMessage);
+                            deferred.reject(errResponse);
+                        }
+                    );
+                return deferred.promise;
+            }
+
             function loadAllProducts() {
                 console.log('Fetching all products');
                 var deferred = $q.defer();

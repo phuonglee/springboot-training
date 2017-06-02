@@ -2,6 +2,7 @@ package com.example.springbootdemo.controller.restapi;
 
 import java.util.List;
 
+import com.example.springbootdemo.model.Cart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
